@@ -343,15 +343,15 @@ const ChatComponent: React.FC = () => {
               {/* First Profile Icon */}
               <div className="w-8 h-8 rounded-full overflow-hidden mr-2">
                 <img 
-                  src="/path-to-your-first-profile-image.jpg" 
+                  src="/LadyProfile.jpg" 
                   alt="Assistant Profile" 
                   className="w-full h-full object-cover"
                 />
               </div>
               {/* Second Profile Icon */}
-              <div className="w-8 h-8 rounded-full overflow-hidden">
+              <div className="w-12 h-8 rounded-md overflow-hidden">
                 <img 
-                  src="/path-to-your-second-profile-image.jpg" 
+                  src="/InsuranceLogo.png" 
                   alt="Insurance Profile" 
                   className="w-full h-full object-cover"
                 />
