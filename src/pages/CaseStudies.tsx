@@ -79,7 +79,7 @@ const CaseStudies = () => {
   return (
     <>
       <Navbar />
-      <section className="pt-24 pb-20 bg-gradient-to-b from-white to-gray-50">
+      <section className="pt-24 pb-20 bg-warm-gradient from-white to-gray-50">
         <div className="content-container">
           <div className="text-center mb-12">
             <h4 className="text-xpectrum-purple font-semibold mb-2 animate-slide-in">Case Studies</h4>

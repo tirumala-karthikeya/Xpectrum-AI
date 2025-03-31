@@ -80,8 +80,8 @@ const ServicesSection = () => {
           
           <ServiceCard 
             icon={Bot}
-            title="QSR" 
-            description="QSR Service AI Agent improving quick service restaurant operations" 
+            title="Retail" 
+            description="Retail Service AI Agent improving retail operations and customer experience"
             color="bg-xpectrum-darkpurple"
             imageIndex={5827404}
           />

@@ -115,7 +115,7 @@ const Hospitality = () => {
       <Navbar />
       <main>
         {/* Hero Section */}
-        <section className="pt-28 pb-16 bg-gradient-to-b from-white to-gray-50">
+        <section className="pt-28 pb-16 bg-warm-gradient from-white to-gray-50">
           <div className="content-container">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               <div className="animate-slide-in">
@@ -158,7 +158,7 @@ const Hospitality = () => {
         </section>
         
         {/* Functions & Capabilities Section */}
-        <section className="py-16 bg-gray-50">
+        <section className="py-16 bg-warm-gradient">
           <div className="content-container">
             <h2 className="text-3xl font-bold mb-12 text-center animate-slide-in">Key Functions & Capabilities</h2>
             
@@ -263,7 +263,7 @@ const Hospitality = () => {
         </section>
         
         {/* Offerings Section */}
-        <section className="py-16 bg-white">
+        <section className="py-16 bg-warm-gradient">
           <div className="content-container">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               <div>
@@ -325,7 +325,7 @@ const Hospitality = () => {
         </section>
         
         {/* Benefits Grid */}
-        <section className="py-16 bg-gray-50">
+        <section className="py-16 bg-warm-gradient">
           <div className="content-container">
             <h2 className="text-3xl font-bold mb-12 text-center animate-slide-in">Advanced Capabilities</h2>
             

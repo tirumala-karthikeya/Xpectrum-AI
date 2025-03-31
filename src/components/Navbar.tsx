@@ -3,43 +3,10 @@ import { Button } from '@/components/ui/button';
 import { Menu, X, Mail } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 
-// Logo component to keep the code organized
 const XpectrumLogo = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50" className="h-12 w-auto">
-   
-    <g>
-      <text x="45" y="32" fontFamily="Arial, sans-serif" fontWeight="bold" fontSize="22" fill="#8B5CF6">
-        xpectrum
-      </text>
-      
-      <text x="155" y="32" fontFamily="Arial, sans-serif" fontWeight="normal" fontSize="28" fill="#6E59A5">
-        AI
-      </text>
-    </g>
-    
-    <g>
-      <path d="M10,10 L25,30 M10,30 L25,10" stroke="#8B5CF6" strokeWidth="4" strokeLinecap="round" />
-      
-      {/* Digital circuit elements */}
-      <circle cx="10" cy="10" r="3" fill="#D946EF" />
-      <circle cx="25" cy="30" r="3" fill="#D946EF" />
-      <circle cx="10" cy="30" r="3" fill="#0EA5E9" />
-      <circle cx="25" cy="10" r="3" fill="#0EA5E9" />
-      
-      {/* Connecting lines */}
-      <path d="M28,10 L38,10" stroke="#E5DEFF" strokeWidth="2" />
-      <path d="M28,30 L38,30" stroke="#E5DEFF" strokeWidth="2" />
-    </g>
-    
-    {/* Small abstract data/AI visualization element */}
-    <g transform="translate(30, 15) scale(0.5)">
-      <path d="M0,15 C5,5 15,0 20,15 C25,30 35,25 40,15" stroke="#0EA5E9" strokeWidth="2" fill="none" />
-      <circle cx="0" cy="15" r="2" fill="#D946EF" />
-      <circle cx="20" cy="15" r="2" fill="#D946EF" />
-      <circle cx="40" cy="15" r="2" fill="#D946EF" />
-    </g>
-  </svg>
+  <img src="/logo.png" alt="Xpectrum AI Logo" className="h-12 w-auto" />
 );
+
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);

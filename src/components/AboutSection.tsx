@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Globe, Brain, Building, CheckCircle } from 'lucide-react';
 import { LucideIcon } from 'lucide-react';
@@ -13,7 +12,7 @@ const FeatureCard = ({
   description: string 
 }) => {
   return (
-    <div className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+    <div className="bg-[#FFF9E6] rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
       <div className="bg-xpectrum-lightpurple rounded-full p-2 w-12 h-12 flex items-center justify-center mb-4">
         <Icon size={24} className="text-xpectrum-purple" />
       </div>
@@ -25,7 +24,7 @@ const FeatureCard = ({
 
 const AboutSection = () => {
   return (
-    <section id="about" className="py-20 bg-gradient-to-b from-white to-gray-50">
+    <section id="about" className="py-20 bg-gradient-to-b from-white to-gray-50 bg-[#FFF9E6]">
       <div className="content-container">
         <div className="flex flex-col lg:flex-row gap-12">
           <div className="lg:w-1/2">

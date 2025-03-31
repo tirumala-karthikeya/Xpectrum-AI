@@ -34,7 +34,7 @@ const Partners = () => {
   return (
     <>
       <Navbar/>
-      <section className="pt-24 pb-20 bg-gray-50">
+      <section className="pt-24 pb-20 bg-warm-gradient">
         <div className="content-container">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <div>

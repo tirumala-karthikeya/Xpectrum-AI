@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Handshake, Link, Users } from 'lucide-react';
@@ -30,7 +29,7 @@ const PartnerFeature = ({
 
 const PartnersSection = () => {
   return (
-    <section id="partners" className="py-20 bg-gray-50">
+    <section className="bg-[#FFF9E6] py-20">
       <div className="content-container">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div>

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
@@ -20,7 +19,7 @@ const CaseStudyCard = ({ title, description }: { title: string, description: str
 
 const CaseStudiesSection = () => {
   return (
-    <section id="cases" className="py-20 bg-white">
+    <section id="cases" className="py-20 bg-[#FFF9E6]">
       <div className="content-container">
         <div className="text-center mb-16">
           <h4 className="text-xpectrum-purple font-semibold mb-2">Case Studies</h4>

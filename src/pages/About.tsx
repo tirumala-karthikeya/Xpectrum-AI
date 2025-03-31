@@ -54,7 +54,7 @@ const About = () => {
   return (
     <>
       <Navbar />
-      <section className="pt-24 pb-20 bg-gradient-to-b from-white to-gray-50">
+      <section className="pt-24 pb-20 bg-warm-gradient from-white to-gray-50">
         <div className="content-container">
           <div className="flex flex-col lg:flex-row gap-12">
             <div className="lg:w-1/2">

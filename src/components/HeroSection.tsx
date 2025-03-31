@@ -29,25 +29,25 @@ const HomePage = () => {
   const universalRef = useRef(null);
   const workforceRef = useRef(null);
   const observerRef = useRef(null);
-  
+
   // Animation states with memoized values
   const [leftHeight, setLeftHeight] = useState(0);
   const [rightHeight, setRightHeight] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
-  
+
   // InView hooks for scroll animations - with reduced sensitivity
   const isHeroInView = useInView(heroRef, { once: false, amount: 0.2 });
   const isAccurateInView = useInView(accurateRef, { once: true, amount: 0.2 });
   const isUniversalInView = useInView(universalRef, { once: true, amount: 0.2 });
   const isWorkforceInView = useInView(workforceRef, { once: true, amount: 0.2 });
-  
+
   // Scroll animations with reduced complexity
   const { scrollYProgress } = useScroll({
     layoutEffect: false // Use useEffect instead of layoutEffect for better performance
   });
   const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0.5]);
   const heroScale = useTransform(scrollYProgress, [0, 0.2], [1, 0.98]);
-  
+
   // Measure heights after the component mounts
   const measureHeights = useCallback(() => {
     if (leftContentRef.current) {
@@ -57,25 +57,25 @@ const HomePage = () => {
       setRightHeight(rightContentRef.current.scrollHeight / 2);
     }
   }, []);
-  
+
   useEffect(() => {
     // Scroll to top only on initial load
     if (!isLoaded) {
       window.scrollTo(0, 0);
       setIsLoaded(true);
     }
-    
+
     // Measure heights with debouncing
     const timeoutId = setTimeout(measureHeights, 500);
-    
+
     // Handle resize with debouncing
     const handleResize = () => {
       clearTimeout(timeoutId);
       setTimeout(measureHeights, 300);
     };
-    
+
     window.addEventListener('resize', handleResize);
-    
+
     // Add animation to elements - optimized observer
     observerRef.current = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -85,17 +85,17 @@ const HomePage = () => {
         }
       });
     }, { threshold: 0.1, rootMargin: '50px' });
-    
+
     const elementsToObserve = document.querySelectorAll('.animate-on-scroll');
     elementsToObserve.forEach((el) => {
       observerRef.current.observe(el);
     });
-    
+
     return () => {
       // Cleanup
       window.removeEventListener('resize', handleResize);
       clearTimeout(timeoutId);
-      
+
       if (observerRef.current) {
         elementsToObserve.forEach((el) => {
           observerRef.current.unobserve(el);
@@ -103,7 +103,7 @@ const HomePage = () => {
       }
     };
   }, [isLoaded, measureHeights]);
-  
+
   // Define roles for the workforce section
   const leftContent = [
     "Sales Development Representative",
@@ -113,7 +113,7 @@ const HomePage = () => {
     "Sales Intelligence",
     "AI Support Agent"
   ];
-  
+
   const rightContent = [
     "Airlines agent",
     "Legal Assistant",
@@ -122,15 +122,15 @@ const HomePage = () => {
     "Contracts Analyzer",
     "Claims Assessment"
   ];
-  
+
   const services = [
-    "HRMS Service",
-    "QSR Service",
-    "Hospitality Service",
-    "Insurance Service",
-    "Airlines Service",
+    { name: "HRMS Service", icon: "👨‍💼" },
+    { name: "Retail Service", icon: "🏪" },
+    { name: "Hospitality Service", icon: "🏨" },
+    { name: "Insurance Service", icon: "🛡️" },
+    { name: "Airlines Service", icon: "🛫" },
   ];
-  
+
   // Get icons based on role name - memoized
   const getIcon = useCallback((title) => {
     if (title.includes("Sales")) return "📈";
@@ -175,7 +175,7 @@ const HomePage = () => {
       }
     }
   };
-  
+
   const itemVariants = {
     hidden: { y: 15, opacity: 0 },
     visible: {
@@ -192,7 +192,7 @@ const HomePage = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setIndex((prevIndex) => (prevIndex + 1) % services.length);
-    }, 2000); 
+    }, 2000);
     return () => clearInterval(interval);
   }, [services.length]);
 
@@ -200,44 +200,55 @@ const HomePage = () => {
     <div className="min-h-screen overflow-x-hidden">
       <Navbar />
       
+
       <motion.section
         ref={heroRef}
-        className="w-full min-h-screen flex flex-col items-center justify-center px-8 font-sans mt-16 lg:mt-28 mb-16 relative"
+        className="w-full min-h-screen flex flex-col items-center justify-center px-4 sm:px-8 font-sans mt-16 lg:mt-20 mb-16 relative bg-warm-gradient"
         initial={false}
       >
-        <div className="max-w-6xl w-full flex flex-col-reverse md:flex-row items-center text-center md:text-left gap-8">
-          
-          {/* Left Content - FIXED: Added proper spacing for rotating text */}
+        <div className="w-full max-w-7xl mx-auto mt-12 mb-16">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight text-center px-4 sm:px-6 md:px-8">
+            <span className="bg-gradient-to-r from-xpectrum-purple to-xpectrum-darkpurple bg-clip-text text-transparent">
+              Seamless Deployment:
+            </span>{" "}
+            <span className="block mt-2 sm:mt-3">
+              Xpectrum on Cloud, On-Premises, or Hybrid
+            </span>
+            <span className="block mt-2 sm:mt-3 text-xl sm:text-2xl md:text-3xl text-gray-600">
+              Your Choice, Our Expertise
+            </span>
+          </h1>
+        </div>
+
+        <div className="max-w-6xl w-full flex flex-col-reverse md:flex-row items-center text-center md:text-left gap-12">
           <motion.div 
-            className="w-full md:w-1/2 space-y-6 flex flex-col items-center md:items-start"
+            className="w-full md:w-1/2 space-y-8 flex flex-col items-center md:items-start"
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.4 }}
           >
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 leading-tight">
-              One AI Employee to Reshape{" "}
-            </h1>
-            {/* FIXED: Changed from inline-block to block and added height to container */}
             <div className="h-12 sm:h-16 md:h-20 relative text-4xl sm:text-5xl md:text-6xl font-bold text-xpectrum-purple flex items-center">
               <AnimatePresence mode="wait">
-                <motion.span
-                  key={services[index]} 
+                <motion.div
+                  key={services[index].name}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.5 }}
+                  className="flex items-center gap-4 justify-between w-full"
                 >
-                  {services[index]}
-                </motion.span>
+                  <span>{services[index].name}</span>
+                  <span className="text-4xl sm:text-5xl">{services[index].icon}</span>
+                </motion.div>
               </AnimatePresence>
             </div>
 
-            <p className="text-gray-600 text-lg sm:text-xl mt-2">
+            <p className="text-gray-600 text-lg sm:text-xl max-w-xl">
               Transform financial services processes across every function with Agentic AI.
             </p>
 
-            <motion.button 
-              className="bg-xpectrum-purple text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-xpectrum-darkpurple transition duration-300"
+            <motion.button
+              className="bg-xpectrum-purple text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-xpectrum-darkpurple transition duration-300 shadow-lg hover:shadow-xl"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
             >
@@ -245,39 +256,49 @@ const HomePage = () => {
             </motion.button>
           </motion.div>
 
-          {/* Right Side: Animated Bot */}
-          <motion.div 
-            className="w-full md:w-1/2 flex justify-center"
+          <motion.div
+            className="w-full md:w-1/2 flex justify-center items-center"
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.4, delay: 0.1 }}
           >
-            <div className="relative">
-              <motion.div
-                animate={{ y: [0, -10, 0], rotateZ: [0, 1, 0, -1, 0] }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            <div className="relative w-full max-w-3xl overflow-hidden rounded-2xl shadow-2xl">
+              <video
+                autoPlay
+                muted
+                loop
+                controls
+                playsInline
+                className="w-full h-full object-contain bg-black"
+                style={{ 
+                  minHeight: '450px',
+                  aspectRatio: '16/9',
+                  width: '100%'
+                }}
               >
-                <Bot size={280} className="text-xpectrum-purple" />
-              </motion.div>
-              <motion.div 
-                className="absolute inset-0 bg-xpectrum-purple/5 rounded-full"
-                animate={{ scale: [1, 1.05, 1], opacity: [0.5, 0.6, 0.5] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                <source src="/Ardra-Promo.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+              <motion.div
+                className="absolute inset-0 -z-10 rounded-2xl blur-lg"
+                animate={{ scale: [1, 1.03, 1], opacity: [0.3, 0.4, 0.3] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                style={{ background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.4), rgba(217, 70, 239, 0.4))' }}
               />
             </div>
           </motion.div>
         </div>
 
         {/* Icons Section */}
-        <motion.div 
+        <motion.div
           className="w-full py-12 mt-12"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.2 }}
         >
           <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-            
-            <motion.div 
+
+            <motion.div
               className="flex flex-col items-center"
               whileHover={{ scale: 1.03, y: -3 }}
               transition={{ type: "spring", stiffness: 300, damping: 15 }}
@@ -290,7 +311,7 @@ const HomePage = () => {
               </p>
             </motion.div>
 
-            <motion.div 
+            <motion.div
               className="flex flex-col items-center"
               whileHover={{ scale: 1.03, y: -3 }}
               transition={{ type: "spring", stiffness: 300, damping: 15 }}
@@ -303,7 +324,7 @@ const HomePage = () => {
               </p>
             </motion.div>
 
-            <motion.div 
+            <motion.div
               className="flex flex-col items-center"
               whileHover={{ scale: 1.03, y: -3 }}
               transition={{ type: "spring", stiffness: 300, damping: 15 }}
@@ -319,10 +340,9 @@ const HomePage = () => {
         </motion.div>
       </motion.section>
 
-      {/* The rest of the component remains unchanged */}
-      
+
       {/* Services Title */}
-      <motion.div 
+      {/* <motion.div
         className="text-center mt-24 mb-16 px-4"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -338,14 +358,14 @@ const HomePage = () => {
         <p className="text-lg text-gray-600 mt-4">
           Experience a different level of operational efficiency
         </p>
-      </motion.div>
+      </motion.div> */}
 
       {/* Multiply Workforce Section - Optimized Animation */}
-      <div 
+      <div
         ref={workforceRef}
-        className="w-full py-16 px-6 md:px-12 bg-gray-50"
+        className="w-full py-16 px-6 md:px-12 bg-warm-gradient"
       >
-        <motion.div 
+        <motion.div
           className="text-center mb-12"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: isWorkforceInView ? 1 : 0, y: isWorkforceInView ? 0 : 20 }}
@@ -356,9 +376,9 @@ const HomePage = () => {
             Multiply your workforce<br />in minutes
           </h1>
         </motion.div>
-        
+
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-8">
-          <motion.div 
+          <motion.div
             className="w-full md:w-2/5"
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: isWorkforceInView ? 1 : 0, x: isWorkforceInView ? 0 : -30 }}
@@ -366,29 +386,29 @@ const HomePage = () => {
           >
             <div className="flex items-center mb-4">
               <div className="w-12 h-12 mr-4 text-xpectrum-purple">
-                <motion.svg 
-                  viewBox="0 0 100 100" 
-                  xmlns="http://www.w3.org/2000/svg" 
+                <motion.svg
+                  viewBox="0 0 100 100"
+                  xmlns="http://www.w3.org/2000/svg"
                   className="w-full h-full"
                   initial={{ pathLength: 0 }}
                   animate={{ pathLength: isWorkforceInView ? 1 : 0 }}
                   transition={{ duration: 1, delay: 0.2 }}
                 >
-                  <motion.circle 
-                    cx="50" cy="50" r="40" 
-                    stroke="currentColor" 
-                    strokeWidth="6" 
+                  <motion.circle
+                    cx="50" cy="50" r="40"
+                    stroke="currentColor"
+                    strokeWidth="6"
                     fill="none"
                     initial={{ pathLength: 0 }}
                     animate={{ pathLength: isWorkforceInView ? 1 : 0 }}
                     transition={{ duration: 1 }}
                   />
-                  <motion.path 
-                    d="M30,50 L45,65 L70,35" 
-                    stroke="currentColor" 
-                    strokeWidth="6" 
-                    fill="none" 
-                    strokeLinecap="round" 
+                  <motion.path
+                    d="M30,50 L45,65 L70,35"
+                    stroke="currentColor"
+                    strokeWidth="6"
+                    fill="none"
+                    strokeLinecap="round"
                     strokeLinejoin="round"
                     initial={{ pathLength: 0 }}
                     animate={{ pathLength: isWorkforceInView ? 1 : 0 }}
@@ -398,14 +418,14 @@ const HomePage = () => {
               </div>
               <h2 className="text-3xl font-bold">Simple</h2>
             </div>
-            
+
             <p className="text-gray-700 text-lg mb-6">
-              With its Generative Workflow Engine™ and pre-built library of agents, Xpectrum conversationally activates 
-              new AI employees to execute any complex workflow in the enterprise. Pre-integrated with hundreds of 
+              With its Generative Workflow Engine™ and pre-built library of agents, Xpectrum conversationally activates
+              new AI employees to execute any complex workflow in the enterprise. Pre-integrated with hundreds of
               apps, Xpectrum is easy to configure and deploy.
             </p>
-            
-            <motion.button 
+
+            <motion.button
               className="bg-xpectrum-darkpurple hover:bg-xpectrum-purple text-white py-3 px-8 rounded-full font-medium transition duration-300"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
@@ -413,18 +433,18 @@ const HomePage = () => {
               Explore integrations
             </motion.button>
           </motion.div>
-          
-          <motion.div 
+
+          <motion.div
             className="w-full md:w-3/5 flex overflow-hidden h-96"
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: isWorkforceInView ? 1 : 0, x: isWorkforceInView ? 0 : 30 }}
             transition={{ duration: 0.4, delay: 0.2 }}
           >
             <div className="w-1/2 overflow-hidden relative h-full">
-              <motion.div 
+              <motion.div
                 ref={leftContentRef}
                 className="absolute w-full"
-                animate={{ 
+                animate={{
                   y: [0, -leftHeight || -800]
                 }}
                 transition={{
@@ -441,12 +461,12 @@ const HomePage = () => {
                 ))}
               </motion.div>
             </div>
-            
+
             <div className="w-1/2 overflow-hidden relative h-full">
               <motion.div
                 ref={rightContentRef}
                 className="absolute w-full"
-                animate={{ 
+                animate={{
                   y: [-rightHeight || -800, 0]
                 }}
                 transition={{
@@ -467,18 +487,18 @@ const HomePage = () => {
         </div>
       </div>
 
-      <div 
+      <div
         ref={accurateRef}
-        className="flex flex-col md:flex-row p-6 mx-auto gap-8 items-center py-16 bg-gray-50"
+        className="flex flex-col md:flex-row p-6 mx-auto gap-8 items-center py-16 bg-warm-gradient"
       >
-        <motion.div 
+        <motion.div
           className="w-full md:w-1/2 md:ml-24 px-4"
-          initial={{ opacity: 0, x: -30 }} 
+          initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: isAccurateInView ? 1 : 0, x: isAccurateInView ? 0 : -30 }}
           transition={{ duration: 0.4 }}
         >
-          <div className="flex items-center mb-6">
-            <motion.div 
+          <div className="flex items-center mb-6 ">
+            <motion.div
               className="w-12 h-12 mr-4 text-xpectrum-purple"
               animate={{ rotate: isAccurateInView ? [0, 180] : 0 }}
               transition={{ duration: 1, delay: 0.1 }}
@@ -489,16 +509,16 @@ const HomePage = () => {
             </motion.div>
             <h2 className="text-4xl font-bold">LLM Model Hub</h2>
           </div>
-          
+
           <p className="text-lg leading-relaxed">
-            Xpectrum maximizes accuracy at the lowest possible cost, 
-            thanks to 2T+ parameter proprietary Xpectrum Model 
-            Hub that intelligently blends the best public and 
-            private models. Plus, Xpectrum is future-proof - it's 
+            Xpectrum maximizes accuracy at the lowest possible cost,
+            thanks to 2T+ parameter proprietary Xpectrum Model
+            Hub that intelligently blends the best public and
+            private models. Plus, Xpectrum is future-proof - it's
             constantly adding new models to avoid over-reliance on one technology stack.
           </p>
-          
-          <motion.button 
+
+          <motion.button
             className="mt-8 bg-xpectrum-darkpurple text-white px-6 py-3 rounded-full font-medium hover:bg-xpectrum-purple transition duration-300"
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
@@ -506,15 +526,15 @@ const HomePage = () => {
             Know more
           </motion.button>
         </motion.div>
-        
-        <motion.div 
+
+        <motion.div
           className="w-full md:w-1/2 mt-8 md:mt-0 px-4"
           initial={{ opacity: 0, x: 30 }}
           animate={{ opacity: isAccurateInView ? 1 : 0, x: isAccurateInView ? 0 : 30 }}
           transition={{ duration: 0.4, delay: 0.2 }}
         >
-          <motion.div 
-            className="bg-white rounded-lg shadow-lg overflow-hidden flex justify-center items-center"
+          <motion.div
+            className="bg-warm-gradient rounded-lg shadow-lg overflow-hidden flex justify-center items-center"
             whileHover={{ scale: 1.01 }}
             transition={{ type: "spring", stiffness: 300, damping: 15 }}
           >
@@ -526,7 +546,7 @@ const HomePage = () => {
                 muted
                 loop
                 playsInline
-                poster="/api/placeholder/600/400" 
+                poster="/api/placeholder/600/400"
               >
                 <source src="/Models.mp4" type="video/mp4" />
                 <source src="/xpectrum-accurate.webm" type="video/webm" />
@@ -542,11 +562,11 @@ const HomePage = () => {
       </div>
 
       {/* Universal AI Employee Section - Optimized Animation */}
-      <div 
+      <div
         ref={universalRef}
-        className="flex flex-col md:flex-row items-center w-full bg-gray-50 py-16 px-6"
+        className="flex flex-col md:flex-row items-center w-full bg-warm-gradient py-16 px-6"
       >
-        <motion.div 
+        <motion.div
           className="w-full md:w-1/2 md:ml-24 md:pr-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: isUniversalInView ? 1 : 0, y: isUniversalInView ? 0 : 20 }}
@@ -556,7 +576,7 @@ const HomePage = () => {
           <h1 className="text-5xl font-bold leading-tight mb-8">
             Your Universal AI<br />Employee
           </h1>
-          <motion.button 
+          <motion.button
             className="bg-xpectrum-darkpurple hover:bg-xpectrum-purple text-white px-8 py-4 rounded-full font-medium text-lg transition duration-300"
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
@@ -564,17 +584,17 @@ const HomePage = () => {
             Hire Xpectrum today
           </motion.button>
         </motion.div>
-        
-        <motion.div 
+
+        <motion.div
           className="w-full md:w-1/2 mt-10 md:mt-0 flex justify-center"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: isUniversalInView ? 1 : 0, y: isUniversalInView ? 0 : 20 }}
           transition={{ duration: 0.4, delay: 0.2 }}
         >
           <div className="relative w-full max-w-lg aspect-square">
-            <motion.div 
+            <motion.div
               className="absolute inset-0 bg-xpectrum-purple rounded-full flex items-center justify-center overflow-hidden"
-              animate={{ 
+              animate={{
                 scale: [1, 1.03, 1],
                 boxShadow: [
                   "0 0 0 rgba(123, 104, 238, 0.4)",
@@ -582,26 +602,26 @@ const HomePage = () => {
                   "0 0 0 rgba(123, 104, 238, 0.4)"
                 ]
               }}
-              transition={{ 
+              transition={{
                 duration: 4,
                 repeat: Infinity,
-                ease: "easeInOut" 
+                ease: "easeInOut"
               }}
             >
-              <motion.div 
+              <motion.div
                 className="absolute inset-0 opacity-30"
                 animate={{ rotate: 360 }}
                 transition={{ duration: 80, repeat: Infinity, ease: "linear" }}
               >
                 {Array.from({ length: 10 }).map((_, i) => (
-                  <div 
-                    key={i} 
+                  <div
+                    key={i}
                     className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full border border-white rounded-full"
                     style={{ width: `${100 - i * 10}%`, height: `${100 - i * 10}%` }}
                   />
                 ))}
               </motion.div>
-              
+
               <div className="text-white text-center px-8 text-3xl font-medium leading-tight z-10">
                 Reimagine the<br />future of work<br />with us
               </div>
@@ -609,9 +629,9 @@ const HomePage = () => {
           </div>
         </motion.div>
       </div>
-      
+
       {/* Global styles for animations */}
-      <style jsx global>{`
+      <style jsx="true" global="true">{`
         @keyframes float {
           0% { transform: translateY(0px); }
           50% { transform: translateY(-15px); }

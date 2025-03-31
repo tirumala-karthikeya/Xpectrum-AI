@@ -1,10 +1,10 @@
-
 import React, { useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Card } from '@/components/ui/card';
 import { CheckCircle, Shield, LineChart, FileCheck, CreditCard, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import ChatComponent from '@/components/ChatComponent';
 
 interface MetricCardProps {
   value: string;
@@ -111,11 +111,11 @@ const Insurance = () => {
   }, []);
 
   return (
-    <>
+    <div className="min-h-screen bg-warm-gradient">
       <Navbar />
       <main>
         {/* Hero Section */}
-        <section className="pt-28 pb-16 bg-gradient-to-b from-white to-gray-50">
+        <section className="pt-28 pb-16 bg-warm-gradient from-white to-gray-50">
           <div className="content-container">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               <div className="animate-slide-in">
@@ -158,7 +158,7 @@ const Insurance = () => {
         </section>
         
         {/* Functions & Capabilities Section */}
-        <section className="py-16 bg-gray-50">
+        <section className="py-16 bg-warm-gradient">
           <div className="content-container">
             <h2 className="text-3xl font-bold mb-12 text-center animate-slide-in">Key Functions & Capabilities</h2>
             
@@ -263,7 +263,7 @@ const Insurance = () => {
         </section>
         
         {/* Offerings Section */}
-        <section className="py-16 bg-white">
+        <section className="py-16 bg-warm-gradient">
           <div className="content-container">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               <div>
@@ -325,7 +325,7 @@ const Insurance = () => {
         </section>
         
         {/* Benefits Grid */}
-        <section className="py-16 bg-gray-50">
+        <section className="py-16 bg-warm-gradient">
           <div className="content-container">
             <h2 className="text-3xl font-bold mb-12 text-center animate-slide-in">Advanced Capabilities</h2>
             
@@ -376,7 +376,9 @@ const Insurance = () => {
         </section>
       </main>
       <Footer />
-    </>
+      
+      <ChatComponent />
+    </div>
   );
 };
 

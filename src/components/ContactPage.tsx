@@ -8,7 +8,7 @@ const ContactPage = () => {
   return (
     <>
     <Navbar/>
-    <div className="min-h-screen pt-24 pb-16 px-4 bg-gradient-to-b from-white to-xpectrum-lightpurple">
+    <div className="min-h-screen pt-24 pb-16 px-4 bg-warm-gradient from-white to-xpectrum-lightpurple">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-16">
           <h1 className="text-3xl md:text-4xl font-bold text-xpectrum-dark mb-3 animate-fade-in">Contact Us</h1>
@@ -18,7 +18,7 @@ const ContactPage = () => {
           </p>
         </div>
 
-        <div className="bg-white rounded-xl shadow-lg p-8 md:p-12 mb-12 animate-scale-in">
+        <div className="bg-warm-gradient rounded-xl shadow-lg p-8 md:p-12 mb-12 animate-scale-in">
           <div className="text-center mb-10">
             <div className="w-20 h-20 bg-xpectrum-lightpurple rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse-slow">
               <Mail size={32} className="text-xpectrum-purple" />

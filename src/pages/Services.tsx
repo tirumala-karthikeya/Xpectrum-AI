@@ -75,7 +75,7 @@ const Services = () => {
   return (
     <>
       <Navbar />
-      <section className="pt-24 pb-20 bg-gradient-to-b from-white to-gray-50">
+      <section className="pt-24 pb-20 bg-warm-gradient from-white to-gray-50">
         <div className="content-container">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="section-title animate-slide-in">
@@ -122,8 +122,8 @@ const Services = () => {
             
             <ServiceCard 
               icon={Bot}
-              title="QSR" 
-              description="QSR Service AI Agent improving quick service restaurant operations" 
+              title="Retail" 
+              description="Retail Service AI Agent improving retail operations and customer experience" 
               color="bg-xpectrum-darkpurple"
               imageIndex={5827404}
               delay={300}
