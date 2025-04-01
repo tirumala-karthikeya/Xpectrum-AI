@@ -124,11 +124,11 @@ const HomePage = () => {
   ];
 
   const services = [
-    { name: "HRMS Service", icon: "👨‍💼" },
-    { name: "Retail Service", icon: "🏪" },
-    { name: "Hospitality Service", icon: "🏨" },
-    { name: "Insurance Service", icon: "🛡️" },
-    { name: "Airlines Service", icon: "🛫" },
+    { name: "HRMS Service", icon: "/HRMS.png" },
+    { name: "Retail Service", icon: "/Retail.png" },
+    { name: "Hospitality Service", icon: "/Hospitality.png" },
+    { name: "Insurance Service", icon: "/Insurance.png" },
+    { name: "Airlines Service", icon: "/Airlines.png" },
   ];
 
   // Get icons based on role name - memoized
@@ -220,14 +220,14 @@ const HomePage = () => {
           </h1>
         </div>
 
-        <div className="max-w-6xl w-full flex flex-col-reverse md:flex-row items-center text-center md:text-left gap-12">
+        <div className="max-w-7xl w-full flex flex-col-reverse md:flex-row items-center text-center md:text-left gap-12">
           <motion.div 
-            className="w-full md:w-1/2 space-y-8 flex flex-col items-center md:items-start"
+            className="w-full md:w-2/5 space-y-8 flex flex-col items-center md:items-start"
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.4 }}
           >
-            <div className="h-12 sm:h-16 md:h-20 relative text-4xl sm:text-5xl md:text-6xl font-bold text-xpectrum-purple flex items-center">
+            <div className="h-20 sm:h-24 md:h-28 relative text-3xl sm:text-4xl md:text-5xl font-bold text-xpectrum-purple flex items-center w-full">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={services[index].name}
@@ -235,10 +235,14 @@ const HomePage = () => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.5 }}
-                  className="flex items-center gap-4 justify-between w-full"
+                  className="flex items-center justify-between w-full gap-8"
                 >
-                  <span>{services[index].name}</span>
-                  <span className="text-4xl sm:text-5xl">{services[index].icon}</span>
+                  <span className="flex-shrink-0 whitespace-nowrap">{services[index].name}</span>
+                  <img 
+                    src={services[index].icon} 
+                    alt={services[index].name}
+                    className="w-32 h-32 object-contain flex-shrink-0"
+                  />
                 </motion.div>
               </AnimatePresence>
             </div>
@@ -257,7 +261,7 @@ const HomePage = () => {
           </motion.div>
 
           <motion.div
-            className="w-full md:w-1/2 flex justify-center items-center"
+            className="w-full md:w-3/5 flex justify-end items-center pl-8 ml-10"
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.4, delay: 0.1 }}
@@ -271,7 +275,7 @@ const HomePage = () => {
                 playsInline
                 className="w-full h-full object-contain bg-black"
                 style={{ 
-                  minHeight: '450px',
+                  minHeight: '400px',
                   aspectRatio: '16/9',
                   width: '100%'
                 }}
