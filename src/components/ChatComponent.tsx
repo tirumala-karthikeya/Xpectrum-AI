@@ -7,7 +7,7 @@ type MessageType = {
 
 // Use environment variables
 const NEXT_AGI_API_KEY = "app-ruGmYX438Wm4TJR03TueyGmx"; 
-const NEXT_AGI_BASE_URL = "http://api.next-agi.com/v1"; 
+const NEXT_AGI_BASE_URL = "https://api.next-agi.com/v1"; 
 
 // Speech recognition setup
 interface SpeechRecognition {
@@ -146,7 +146,9 @@ const ChatComponent: React.FC = () => {
       files: []
     };
 
+    // Show loading indicator immediately
     setIsLoading(true);
+    // Add user message
     setMessages((prev) => [...prev, { type: "user", content: query }]);
     setQuery("");
 
@@ -169,8 +171,12 @@ const ChatComponent: React.FC = () => {
       const reader = response.body?.getReader();
       const decoder = new TextDecoder();
       
-      // Add a bot message that we'll update
-      setMessages((prev) => [...prev, { type: "bot", content: "" }]);
+      // Add empty bot message to start - this will hide the typing indicator
+      let botMessageIndex = -1;
+      setMessages((prev) => {
+        botMessageIndex = prev.length;
+        return [...prev, { type: "bot", content: "" }];
+      });
 
       if (reader) {
         let fullAnswer = "";
@@ -188,15 +194,15 @@ const ChatComponent: React.FC = () => {
                   setConversationId(eventData.conversation_id);
                 }
                 if (eventData.answer) {
-                  // Accumulate the answer chunks
                   fullAnswer += eventData.answer;
-                  // Update the last message instead of adding a new one
                   setMessages((prev) => {
                     const newMessages = [...prev];
-                    newMessages[newMessages.length - 1] = { 
-                      type: "bot", 
-                      content: fullAnswer 
-                    };
+                    if (botMessageIndex >= 0 && botMessageIndex < newMessages.length) {
+                      newMessages[botMessageIndex] = { 
+                        type: "bot", 
+                        content: fullAnswer 
+                      };
+                    }
                     return newMessages;
                   });
                 }
@@ -227,8 +233,8 @@ const ChatComponent: React.FC = () => {
       const lines = formattedContent.split('\n');
       const listItems = [];
       const nonListContent = [];
-      
-      // Process each line
+    
+    // Process each line
       lines.forEach(line => {
         const trimmed = line.trim();
         // Check if this line is a numbered list item
@@ -315,7 +321,7 @@ const ChatComponent: React.FC = () => {
       {isOpen && (
         <div 
           ref={chatContainerRef}
-          className={`absolute bottom-20 right-0 rounded-lg
+          className={`absolute bottom-20 right-0 rounded-3xl
             w-[90vw] sm:w-[400px] md:w-[450px] lg:w-[500px] 
             h-[80vh] sm:h-[600px] md:h-[650px] lg:h-[700px] 
             max-h-[85vh] flex flex-col overflow-hidden
@@ -325,10 +331,11 @@ const ChatComponent: React.FC = () => {
             }`}
           style={{
             animation: isClosing ? 'fadeOut 0.3s ease-out' : 'fadeIn 0.3s ease-out',
+            background: "linear-gradient(to bottom, #ffffff 0%,rgb(254, 227, 139) 80%)"
           }}
         >
-          {/* Header - lighter color as requested */}
-          <div className="p-4 rounded-t-lg flex justify-between items-center bg-gray-200">
+          {/* Header - increased corner radius */}
+          <div className="p-4 rounded-t-3xl flex justify-between items-center bg-gray-200">
             <div className="flex items-center gap-4">
               <div className="w-10 h-10 rounded-full overflow-hidden bg-white flex items-center justify-center">
                 <img 
@@ -391,14 +398,13 @@ const ChatComponent: React.FC = () => {
             </div>
           </div>
 
-          {/* Messages Area - simplified with light gradient background */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4" style={{ background: "linear-gradient(to bottom, #ffffff 0%,  #FFF9E6 100%)" }}>
+          {/* Messages Area - update message bubbles to be more rounded */}
+          <div className="flex-1 overflow-y-auto p-4 space-y-4">
             {messages.map((msg, index) => (
               <div
                 key={index}
                 className={`flex ${msg.type === "user" ? "justify-end" : "justify-start"}`}
               >
-                {/* Message Content - removed bot avatars */}
                 <div
                   className={`max-w-[85%] sm:max-w-[80%] ${
                     msg.type === "user"
@@ -407,9 +413,9 @@ const ChatComponent: React.FC = () => {
                   }`}
                 >
                   <div 
-                    className={`inline-block px-4 py-3 rounded-2xl ${
+                    className={`inline-block px-4 py-3 rounded-3xl shadow-sm ${
                       msg.type === "user"
-                        ? "bg-blue-500 text-white"
+                        ? "bg-[#6B21A8] text-white"
                         : msg.type === "bot"
                         ? "bg-white"
                         : "bg-red-100 text-red-800"
@@ -423,10 +429,10 @@ const ChatComponent: React.FC = () => {
             ))}
             <div ref={messagesEndRef} />
             
-            {/* Simplified typing indicator - no avatar */}
-            {isLoading && (
+            {/* Typing indicator - Show when loading and the last message is from the user */}
+            {isLoading && messages[messages.length - 1]?.type === "user" && (
               <div className="flex justify-start">
-                <div className="bg-white px-4 py-3 rounded-2xl inline-block">
+                <div className="bg-white px-4 py-3 rounded-3xl shadow-sm inline-block">
                   <div className="typing-dots">
                     <span className="dot"></span>
                     <span className="dot"></span>
@@ -437,15 +443,19 @@ const ChatComponent: React.FC = () => {
             )}
           </div>
 
-          {/* Input Area - simplified */}
-          <div className="p-2 border-t border-gray-200" style={{ background: "linear-gradient(to bottom, #ffffff 0%, #FFF9E6 100%)" }}>
+          {/* Input Area - update input field corners */}
+          <div className="p-2">
             <div className="flex items-center">
               <button
                 onClick={toggleListening}
                 disabled={isLoading}
-                className="p-2 rounded-full text-blue-500 mr-2"
+                className={`p-2 rounded-full mr-2 ${
+                  isLoading 
+                    ? 'text-gray-400 cursor-not-allowed'
+                    : 'text-[#6B21A8] hover:bg-purple-50'
+                }`}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
                     d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
                 </svg>
@@ -455,7 +465,7 @@ const ChatComponent: React.FC = () => {
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                className="flex-1 border border-gray-300 rounded-full px-4 py-2 focus:outline-none"
+                className="flex-1 border border-gray-300 rounded-3xl px-4 py-3 min-h-[80px] focus:outline-none"
                 placeholder="Type a message..."
                 disabled={isLoading}
                 onKeyDown={(e) => e.key === "Enter" && !isLoading && sendMessage()}
@@ -467,14 +477,14 @@ const ChatComponent: React.FC = () => {
                 className={`p-2 rounded-full ml-2 ${
                   !query.trim() || isLoading 
                     ? 'text-gray-400 cursor-not-allowed'
-                    : 'text-blue-500'
+                    : 'text-[#6B21A8] hover:bg-purple-50'
                 }`}
               >
                 <svg 
                   xmlns="http://www.w3.org/2000/svg" 
-                  className="h-6 w-6" 
+                  className="h-7 w-7" 
                   viewBox="0 0 24 24" 
-                  fill="none" 
+                  fill={!query.trim() || isLoading ? "none" : "#6B21A8"}
                   stroke="currentColor"
                   strokeWidth="2"
                   strokeLinecap="round"
@@ -558,4 +568,4 @@ const ChatComponent: React.FC = () => {
   );
 };
 
-export default ChatComponent;
+export default ChatComponent; 
